@@ -1,2 +1,2 @@
 # RoboRangers
-Making the winning robot for "Robotics for Good Youth Challenge"
+Making the winning robot(s) for "Robotics for Good Youth Challenge"
