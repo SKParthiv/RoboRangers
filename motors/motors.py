@@ -1,13 +1,17 @@
 import RPi.GPIO as GPIO
+import numpy as np
+import math
 
 class Motor:
-	def __init__(self, name, encoder_A, encoder_B, motor_in1, motor_in2, pwm_pin):
+	def __init__(self, name, encoder_A, encoder_B, motor_in1, motor_in2, pwm_pin, encoder_ticks, ticks_per_revolution):
 		self.name = name
 		self.encoder_A = encoder_A
 		self.encoder_B = encoder_B
 		self.motor_in1 = motor_in1
 		self.motor_in2 = motor_in2
 		self.pwm_pin = pwm_pin
+		self.encoder_ticks = encoder_ticks
+		self.ticks_per_revolution = ticks_per_revolution
 
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.encoder_A, GPIO.IN)
@@ -42,3 +46,10 @@ class Motor:
 				position -= 1  # Counterclockwise
 		last_A = A
 		return last_A, position
+	# Function to calculate distance traveled by each wheel
+	def calculate_wheel_displacement(self, wheel_radius):
+		# Calculate the wheel rotation in radians
+		wheel_circumference = 2 * np.pi * wheel_radius
+		# Displacement is proportional to the fraction of wheel circumference covered by the encoder ticks
+		displacement = (self.encoder_ticks / self.ticks_per_revolution) * wheel_circumference
+		return displacement
