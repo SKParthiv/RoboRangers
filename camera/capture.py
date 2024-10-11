@@ -1,4 +1,4 @@
-from picamera2 import PiCamera2 as PiCamera
+from picamera2 import Picamera2 as PiCamera
 import cv2
 import numpy as np
 from mapping.blocks import Block
