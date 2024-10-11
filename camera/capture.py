@@ -1,20 +1,14 @@
-from picamera import PiCamera
+import subprocess
 import cv2
 import numpy as np
 from mapping.blocks import Block
 
-# Initialize PiCamera
 image_width = 640
-camera = PiCamera()
+sh_file_path = 'camera/img.sh'
 def capture_image():
-	camera.resolution = (image_width, 480)
-	camera.start_preview()
-
-	# Capture image and save it to the disk
-	camera.capture('/home/pi/image.jpg')
-
+	subprocess.run(["bash", sh_file_path])
 	# Load image into OpenCV
-	image = cv2.imread('/home/pi/image.jpg')
+	image = cv2.imread('camera/img.jpeg')
 	return image
 
 def define_blocks(mask_tuple, calibration_factor, image_width, fov):
