@@ -23,9 +23,9 @@ echo "Installing Python libraries (NumPy, OpenCV, etc.)..."
 sudo apt-get install puthon3-numpy
 
 # Install OpenCV from pip
-pip3 install opencv-python
-pip3 install opencv-python-headless
-pip3 install opencv-contrib-python
+sudo apt-get install python3-opencv-python
+sudo apt-get install python3-opencv-python-headless
+sudo apt-get install python3-opencv-contrib-python
 
 # Install Matplotlib for plotting
 echo "Installing Matplotlib..."
