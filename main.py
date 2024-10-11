@@ -15,8 +15,8 @@ calibration_factor = 12 # Edit based on the physical params
 max_speed = 100 # Edit based on the physical params
 robot_position = (10, 5) # Edit based on the physical params
 pwm_pin = 12    # GPIO pin for PWM control
-encoder_ticks = 1000 # Change based on the encoder specs
 ticks_per_revolution = 2000 # Change based on the encoder specs
+wheel_radius = 0.5 # Change based on the wheel radius
 
 # Defining Motors
 motor1 = Motor(1, 13, 14, 15, 16, pwm_pin, encoder_ticks, ticks_per_revolution)
@@ -40,26 +40,18 @@ while True:
     blocks = define_blocks(masks, calibration_factor , image_width , fov)
 
     # Get encoder feedback
-    positions = []
-    for i in encoder_feedback:
-        positions.append(i[1])
-    encoder_feedback = [motor1.encoder_callback(encoder_feedback[0][0]), 
-                        motor2.encoder_callback(encoder_feedback[1][0]),
-                        motor3.encoder_callback(encoder_feedback[2][0]),
-                        motor4.encoder_callback(encoder_feedback[3][0])]
-    position_differences = []
-    for i in range(4):
-        position_differences.append(encoder_feedback[i][1]-positions[i])
-    # Calculate distance travelled by each wheel
-    wheel_radius = 0.05  # Example radius in meters, adjust based on your wheel size
-    encoder_ticks_per_revolution = 20  # Example value, adjust based on your encoder specs
-    distance_per_tick = (2 * math.pi * wheel_radius) / encoder_ticks_per_revolution
+    for i, motor in enumerate([motor1, motor2, motor3, motor4]):
+        last_A, position = encoder_feedback[i]
+        last_A, new_position = motor.encoder_callback(last_A)
+        encoder_feedback[i] = (last_A, new_position)
+        motor.encoder_ticks = new_position
 
-    distances = [diff * distance_per_tick for diff in position_differences]
+    # Calculate displacement for each wheel
+    left_displacement = (motor1.calculate_wheel_displacement(wheel_radius) + motor2.calculate_wheel_displacement(wheel_radius)) / 2
+    right_displacement = (motor3.calculate_wheel_displacement(wheel_radius) + motor4.calculate_wheel_displacement(wheel_radius)) / 2
 
-    # Calculate average distance travelled by the robot
-    average_distance = sum(distances) / len(distances)
-    print(f"Average distance travelled by the robot: {average_distance} meters")
-    
+    # Calculate the robot's displacement and turn angle
+    robot_displacement = (left_displacement + right_displacement) / 2
+    turn_angle = (right_displacement - left_displacement) / (2 * wheel_radius)
 
-    
+    # 
