@@ -1,17 +1,19 @@
-from picamera2 import Picamera2 as PiCamera
+from picamera2 import Picamera2, Preview
 import cv2
 import numpy as np
 from mapping.blocks import Block
 
 # Initialize PiCamera
 image_width = 640
-camera = PiCamera()
+camera = Picamera2()
+camera_config = camera.create_preview_configuration()
+camera.config(camera_config)
+camera.start_preview(Preview.QTGL)
+camera.start()
 def capture_image():
-	camera.resolution = (image_width, 480)
-	camera.start_preview()
 
 	# Capture image and save it to the disk
-	camera.capture('/home/pi/image.jpg')
+	camera.capture_file('/home/pi/image.jpg')
 
 	# Load image into OpenCV
 	image = cv2.imread('/home/pi/image.jpg')
@@ -25,11 +27,10 @@ def define_blocks(mask, calibration_factor, image_width, fov, colour):
 	contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	for contour in contours:
 		# Get the bounding box of the contour
-		x, y, w, h = cv2.boundingRect(contour)
+		x, _, w, _ = cv2.boundingRect(contour)
 		# Assuming pixel_position is the x-coordinate of the center of the bounding box
 		pixel_position = x + w / 2
 		blocks.append(Block(calibration_factor/w, (pixel_position - image_width / 2) * (fov / image_width), colour))
-
 	return blocks
 
 def detect_green(image):
