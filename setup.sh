@@ -20,24 +20,19 @@ sudo apt install libhdf5-dev libhdf5-103 -y
 
 # Install Python libraries for OpenCV and related packages
 echo "Installing Python libraries (NumPy, OpenCV, etc.)..."
-pip3 install numpy
+sudo apt-get install puthon3-numpy
 
 # Install OpenCV from pip
-pip3 install opencv-python
-pip3 install opencv-python-headless
-pip3 install opencv-contrib-python
+sudo apt-get install python3-opencv
 
 # Install Matplotlib for plotting
 echo "Installing Matplotlib..."
-pip3 install matplotlib
+sudo apt-get install python3-matplotlib
 
-# Install RPi.GPIO for controlling GPIO pins on the Raspberry Pi
-echo "Installing RPi.GPIO..."
-pip3 install RPi.GPIO
 
 # Install PiCamera for interfacing with the Raspberry Pi camera module
 echo "Installing PiCamera..."
-pip3 install picamera
+sudo apt-get install python3-picamera2
 
 # Optional: Install additional useful libraries (e.g., SciPy, Pandas)
 # echo "Installing SciPy..."

@@ -10,7 +10,6 @@ class Motor:
 		self.motor_in1 = motor_in1
 		self.motor_in2 = motor_in2
 		self.pwm_pin = pwm_pin
-		self.encoder_ticks = encoder_ticks
 		self.ticks_per_revolution = ticks_per_revolution
 
 		GPIO.setmode(GPIO.BCM)
@@ -47,9 +46,9 @@ class Motor:
 		last_A = A
 		return last_A, position
 	# Function to calculate distance traveled by each wheel
-	def calculate_wheel_displacement(self, wheel_radius):
+	def calculate_wheel_displacement(self, encoder_ticks, wheel_radius):
 		# Calculate the wheel rotation in radians
 		wheel_circumference = 2 * np.pi * wheel_radius
 		# Displacement is proportional to the fraction of wheel circumference covered by the encoder ticks
-		displacement = (self.encoder_ticks / self.ticks_per_revolution) * wheel_circumference
+		displacement = (encoder_ticks / self.ticks_per_revolution) * wheel_circumference
 		return displacement
