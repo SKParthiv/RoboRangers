@@ -13,11 +13,22 @@ camera.start()
 def capture_image():
 
 	# Capture image and save it to the disk
-	camera.capture_file('/home/pi/image.jpg')
+	camera.capture_file('image.jgp')
 
 	# Load image into OpenCV
-	image = cv2.imread('/home/pi/image.jpg')
+	image = cv2.imread('image.jpg')
 	return image
+	# Capture image and save it to the disk
+	# camera = cv2.VideoCapture(0)
+
+	# ret, frame = camera.read()
+	# if ret:
+	# 	cv2.imshow("img", frame)
+	# 	# Load image into OpenCV
+	# 	image = cv2.imread('/home/pi/image.jpg')
+	# 	return frame
+	# else:
+	# 	return None
 
 def define_blocks(mask, calibration_factor, image_width, fov, colour):
 	# Linear relation based on pre-calibrated data

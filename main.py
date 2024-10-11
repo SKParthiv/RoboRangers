@@ -32,19 +32,19 @@ while True:
     time.sleep(0.1)
     # Capture image
     image = capture_image()
-    
-    # Detect colors
-    mask_red = detect_red(image)
-    mask_green = detect_green(image)
-    mask_brown = detect_brown(image)
+    if image != None:
+        # Detect colors
+        mask_red = detect_red(image)
+        mask_green = detect_green(image)
+        mask_brown = detect_brown(image)
 
-    # Calculate Depth and Turn angles for each blocks
-    blocks_red = define_blocks(mask_red, calibration_factor , image_width , fov)
-    blocks_green = define_blocks(mask_green, calibration_factor , image_width , fov)
-    blocks_brown = define_blocks(mask_brown, calibration_factor , image_width , fov)
+        # Calculate Depth and Turn angles for each blocks
+        blocks_red = define_blocks(mask_red, calibration_factor , image_width , fov)
+        blocks_green = define_blocks(mask_green, calibration_factor , image_width , fov)
+        blocks_brown = define_blocks(mask_brown, calibration_factor , image_width , fov)
 
 
-    # Get encoder feedback
+    # # Get encoder feedback
     # for i, motor in enumerate([motor1, motor2, motor3, motor4]):
     #     last_A, position = encoder_feedback[i]
     #     last_A, new_position = motor.encoder_callback(last_A)
@@ -55,6 +55,8 @@ while True:
     # left_displacement = (motor1.calculate_wheel_displacement(wheel_radius) + motor2.calculate_wheel_displacement(wheel_radius)) / 2
     # right_displacement = (motor3.calculate_wheel_displacement(wheel_radius) + motor4.calculate_wheel_displacement(wheel_radius)) / 2
 
-    # Calculate the robot's displacement and turn angle
+    # # Calculate the robot's displacement and turn angle
     # robot_displacement = (left_displacement + right_displacement) / 2
     # turn_angle = (right_displacement - left_displacement) / (2 * wheel_radius)
+
+    

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Enough only on a Rspberry Pi
 # Update system packages
 echo "Updating system packages..."
 sudo apt update && sudo apt upgrade -y
@@ -20,9 +20,12 @@ sudo apt install libhdf5-dev libhdf5-103 -y
 
 # Install Python libraries for OpenCV and related packages
 echo "Installing Python libraries (NumPy, OpenCV, etc.)..."
-sudo apt-get install puthon3-numpy
+sudo apt-get install python3-dev python3-numpy
+sudo apt-get install cmake
+sudo apt-get install gcc g++
 
 # Install OpenCV from pip
+sudo apt-get install git
 sudo apt-get install python3-opencv
 
 # Install Matplotlib for plotting
@@ -31,8 +34,8 @@ sudo apt-get install python3-matplotlib
 
 
 # Install PiCamera for interfacing with the Raspberry Pi camera module
-echo "Installing PiCamera..."
-sudo apt-get install python3-picamera2
+# echo "Installing PiCamera..."
+# sudo apt-get install python3-picamera2
 
 # Optional: Install additional useful libraries (e.g., SciPy, Pandas)
 # echo "Installing SciPy..."

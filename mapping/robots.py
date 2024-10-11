@@ -1,6 +1,8 @@
 class Robot:
-	def __init__(self, coordinates_top_left_corner, width, length):
-		self.coordinates_top_left_corner = coordinates_top_left_corner
+	def __init__(self, x, y, width, length, angle):
+		self.x = x
+		self.y = y
 		self.width = width
-		self.lenght = length
+		self.length = length
+		self.angle = angle
 		

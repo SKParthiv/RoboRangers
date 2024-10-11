@@ -1,0 +1,7 @@
+/__pycache__/
+/camera/__pycache__/
+/mapping/__pycache__/
+/motors/__pycache__/
+/path_planning/__pycache__/
+
+image.jpg
