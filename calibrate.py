@@ -54,7 +54,7 @@ def detect_green(image):
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     
     green_mask = cv2.inRange(hsv_image, green_lower, green_upper)
-    cv2.imshow(green_mask)
+    cv2.imshow("greenmask", green_mask)
     return green_mask
 
 def detect_red(image):
@@ -64,7 +64,7 @@ def detect_red(image):
 	hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 	red_mask = cv2.inRange(hsv_image, red_lower, red_upper)
-	cv2.imshow(red_mask)
+	cv2.imshow("redmask", red_mask)
 	return red_mask
 
 def detect_brown(image):
@@ -74,7 +74,7 @@ def detect_brown(image):
 	hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 	brown_mask = cv2.inRange(hsv_image, brown_lower, brown_upper)
-	cv2.imshow(brown_mask)
+	cv2.imshow("brownmask", brown_mask)
 	return brown_mask
 
 while True:
