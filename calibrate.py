@@ -47,8 +47,8 @@ def define_blocks(mask):
 def detect_green(image):
     # Define RGB color ranges in HSV
     
-    green_lower = np.array([40, 10, 100])
-    green_upper = np.array([70, 255, 200])
+    green_lower = np.array([40, 100, 50])
+    green_upper = np.array([70, 255, 150])
     
     # Convert image to HSV
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
