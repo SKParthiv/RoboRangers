@@ -7,7 +7,7 @@ import time
 image_width = 640
 camera = Picamera2()
 camera_config = camera.create_preview_configuration()
-camera.config(camera_config)
+camera.configure(camera_config)
 camera.start_preview(Preview.QTGL)
 camera.start()
 def capture_image():
