@@ -18,13 +18,41 @@ def capture_image():
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     return image
 
-def define_blocks(image, mask, color_name):
-    # Find contours in the mask
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+def merge_contours(contours, merge_distance=20):
+    # Merge close contours by calculating a bounding box that encompasses them
+    if not contours:
+        return []
+
+    merged_boxes = []
     for contour in contours:
         # Get the bounding box of the contour
         x, y, w, h = cv2.boundingRect(contour)
-        # Draw the bounding box on the original image
+        merged = False
+        
+        # Try to merge with existing bounding boxes
+        for i, (mx, my, mw, mh) in enumerate(merged_boxes):
+            # Check if the current bounding box is close enough to merge
+            if (abs(mx - x) < merge_distance and abs(my - y) < merge_distance):
+                # Update the existing bounding box to include the current one
+                merged_boxes[i] = (min(mx, x), min(my, y), max(mx + mw, x + w) - min(mx, x), max(my + mh, y + h) - min(my, y))
+                merged = True
+                break
+
+        if not merged:
+            merged_boxes.append((x, y, w, h))
+
+    return merged_boxes
+
+def define_blocks(image, mask, color_name):
+    # Find contours in the mask
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    # Filter small contours and merge close ones
+    large_contours = [c for c in contours if cv2.contourArea(c) > 500] # Filter based on area
+    merged_boxes = merge_contours(large_contours)
+    
+    for (x, y, w, h) in merged_boxes:
+        # Draw the merged bounding box on the original image
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         # Print the coordinates and dimensions of the bounding box
         print(f"{color_name} - x: {x}, y: {y}, w: {w}, h: {h}")
@@ -42,7 +70,7 @@ while True:
     image = capture_image()
     
     # Detect green color
-    mask_green = detect_color(image, np.array([40, 100, 50]), np.array([70, 255, 150]), "Green")
+    mask_green = detect_color(image, np.array([35, 100, 50]), np.array([85, 255, 255]), "Green")
     
     # Detect red color (requires two ranges to cover the wrap-around of red in HSV)
     mask_red1 = detect_color(image, np.array([0, 100, 100]), np.array([10, 255, 255]), "Red")
