@@ -35,7 +35,7 @@ def define_blocks(mask):
 	blocks = []
 	color = 0
 	# Find contours in the mask
-	contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+	contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 	for contour in contours:
 		# Get the bounding box of the contour
 		x, y, w, h = cv2.boundingRect(contour)
@@ -48,7 +48,7 @@ def detect_green(image):
     # Define RGB color ranges in HSV
     
     green_lower = np.array([40, 10, 100])
-    green_upper = np.array([70, 255, 255])
+    green_upper = np.array([70, 255, 200])
     
     # Convert image to HSV
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
