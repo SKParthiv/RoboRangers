@@ -66,7 +66,7 @@ def detect_color(image, lower_bound, upper_bound, color_name):
     return mask
 
 while True:
-    time.sleep(1)
+    time.sleep(3)
     image = capture_image()
     
     # Detect green color
