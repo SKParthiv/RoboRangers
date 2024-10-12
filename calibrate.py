@@ -30,7 +30,7 @@ def capture_image():
 	# else:
 	# 	return None
 
-def define_blocks(mask, calibration_factor, image_width, fov, colour):
+def define_blocks(mask):
 	# Linear relation based on pre-calibrated data
 	blocks = []
 	color = 0
