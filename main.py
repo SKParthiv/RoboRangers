@@ -57,6 +57,9 @@ while True:
 
     # # Calculate the robot's displacement and turn angle
     # robot_displacement = (left_displacement + right_displacement) / 2
-    # turn_angle = (right_displacement - left_displacement) / (2 * wheel_radius)
+    # turn_angle = (left_displacement - right_displacement) / (2 * wheel_radius)
 
-    
+    #Ending sequence
+    blocks_red = None
+    blocks_green = None
+    blocks_brown = None
