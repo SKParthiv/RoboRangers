@@ -29,7 +29,6 @@ def define_blocks(mask, color_name):
 		cv2.rectangle(mask, (x, y), (x + w, y + h), (0, 255, 0), 2)
 		# Print the coordinates and dimensions of the bounding box
 		print(f"{color_name} - x: {x}, y: {y}, w: {w}, h: {h}")
-	cv2.imshow(f"{color_name} mask", mask)
 
 def detect_color(image, lower_bound, upper_bound, color_name):
 	# Convert image to HSV
