@@ -1,78 +1,71 @@
 from picamera2 import Picamera2, Preview
 import cv2
 import numpy as np
+import time
 from mapping.blocks import Block
 
 # Initialize PiCamera
 image_width = 640
+fov = 0
+calibration_factor = 12
 camera = Picamera2()
-camera_config = camera.create_preview_configuration()
-camera.config(camera_config)
+camera_config = camera.create_preview_configuration(main={"size": (image_width, image_width * 3 // 4)})
+camera.configure(camera_config)
 camera.start_preview(Preview.QTGL)
 camera.start()
+
 def capture_image():
+    # Capture image in RGB format
+    image = camera.capture_array()
+    # Convert the captured image from RGB to BGR (OpenCV format)
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    return image
 
-	# Capture image and save it to the disk
-	camera.capture_file('image.jgp')
+def merge_contours(contours, merge_distance=20):
+    # Merge close contours by calculating a bounding box that encompasses them
+    if not contours:
+        return []
 
-	# Load image into OpenCV
-	image = cv2.imread('image.jpg')
-	return image
-	# Capture image and save it to the disk
-	# camera = cv2.VideoCapture(0)
+    merged_boxes = []
+    for contour in contours:
+        # Get the bounding box of the contour
+        x, y, w, h = cv2.boundingRect(contour)
+        merged = False
+        
+        # Try to merge with existing bounding boxes
+        for i, (mx, my, mw, mh) in enumerate(merged_boxes):
+            # Check if the current bounding box is close enough to merge
+            if (abs(mx - x) < merge_distance and abs(my - y) < merge_distance):
+                # Update the existing bounding box to include the current one
+                merged_boxes[i] = (min(mx, x), min(my, y), max(mx + mw, x + w) - min(mx, x), max(my + mh, y + h) - min(my, y))
+                merged = True
+                break
 
-	# ret, frame = camera.read()
-	# if ret:
-	# 	cv2.imshow("img", frame)
-	# 	# Load image into OpenCV
-	# 	image = cv2.imread('/home/pi/image.jpg')
-	# 	return frame
-	# else:
-	# 	return None
+        if not merged:
+            merged_boxes.append((x, y, w, h))
 
-def define_blocks(mask, calibration_factor, image_width, fov, colour):
-	# Linear relation based on pre-calibrated data
-	blocks = []
-	color = 0
-	# Find contours in the mask
-	contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-	for contour in contours:
-		# Get the bounding box of the contour
-		x, _, w, _ = cv2.boundingRect(contour)
-		# Assuming pixel_position is the x-coordinate of the center of the bounding box
-		pixel_position = x + w / 2
-		blocks.append(Block(calibration_factor/w, (pixel_position - image_width / 2) * (fov / image_width), colour))
-	return blocks
+    return merged_boxes
 
-def detect_green(image):
-    # Define RGB color ranges in HSV
+def define_blocks(image, mask, color_name):
+    # Find contours in the mask
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
-    green_lower = np.array([40, 100, 100])
-    green_upper = np.array([70, 255, 255])
-    
+    # Filter small contours and merge close ones
+    large_contours = [c for c in contours if cv2.contourArea(c) > 500] # Filter based on area
+    merged_boxes = merge_contours(large_contours)
+    blocks = []
+    for (x, y, w, h) in merged_boxes:
+        # Draw the merged bounding box on the original image
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # Define Blocks
+        pixel_position = x + w / 2
+        blocks.append(Block(calibration_factor/w, (pixel_position - image_width / 2) * (fov / image_width), color_name))
+    return blocks
+
+def detect_color(image, lower_bound, upper_bound, color_name):
     # Convert image to HSV
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    
-    green_mask = cv2.inRange(hsv_image, green_lower, green_upper)
-    cv2.imshow(green_mask)
-    return green_mask
-
-def detect_red(image):
-	red_lower = np.array([0, 100, 100])
-	red_upper = np.array([10, 255, 255])
-
-	hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-	red_mask = cv2.inRange(hsv_image, red_lower, red_upper)
-	cv2.imshow(red_mask)
-	return red_mask
-
-def detect_brown(image):
-	brown_lower = np.array([10, 100, 20])
-	brown_upper = np.array([20, 255, 200])
-
-	hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-	brown_mask = cv2.inRange(hsv_image, brown_lower, brown_upper)
-	cv2.imshow(brown_mask)
-	return brown_mask
+    # Create a mask for the color
+    mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
+    blocks = define_blocks(image, mask, color_name)
+    return mask, blocks
