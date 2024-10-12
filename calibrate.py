@@ -13,7 +13,7 @@ camera.start()
 def capture_image():
 
 	# Capture image and save it to the disk
-	camera.capture_file('image.jgp')
+	camera.capture_file('image.jpg')
 
 	# Load image into OpenCV
 	image = cv2.imread('image.jpg')
