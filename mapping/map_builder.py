@@ -46,3 +46,4 @@ def create_map():
     # Show the map
     plt.grid(True)
     plt.show()
+create_map()
