@@ -73,12 +73,12 @@ while True:
     mask_green = detect_color(image, np.array([35, 100, 50]), np.array([85, 255, 255]), "Green")
     
     # Detect red color (requires two ranges to cover the wrap-around of red in HSV)
-    #mask_red1 = detect_color(image, np.array([0, 100, 100]), np.array([10, 255, 255]), "Red")
-    #mask_red2 = detect_color(image, np.array([160, 100, 100]), np.array([180, 255, 255]), "Red")
-    #mask_red = cv2.bitwise_or(mask_red1, mask_red2)
+    mask_red1 = detect_color(image, np.array([0, 100, 100]), np.array([10, 255, 255]), "Red")
+    mask_red2 = detect_color(image, np.array([160, 100, 100]), np.array([180, 255, 255]), "Red")
+    mask_red = cv2.bitwise_or(mask_red1, mask_red2)
     
     # Detect brown color
-    #mask_brown = detect_color(image, np.array([10, 100, 20]), np.array([20, 255, 200]), "Brown")
+    mask_brown = detect_color(image, np.array([10, 100, 20]), np.array([20, 255, 200]), "Brown")
     
     # Display the original image with detected contours
     cv2.imshow("Original Image", image)
