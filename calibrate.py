@@ -44,7 +44,7 @@ red_green_width_cm = 11.0
 brown_width_cm = 120.0
 
 # Depths in cm
-red_green_depth_cm = 21.0  # Example depth for red and green blocks
+red_green_depth_cm = 13.0  # Example depth for red and green blocks
 brown_depth_cm = 100.0  # Example depth for brown block
 
 # HSV ranges for red, green, and brown colors
