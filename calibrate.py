@@ -59,13 +59,15 @@ def calculate_calibration_factor(image_path, image_path2, actual_width_cm, lower
 
 # Example usage for Red, Green, and Brown blocks
 image_path = 'blocks_image.jpg'  # Replace with the path to your image
+image_path2 = 'blocks_image2.jpg'
 
 # Actual widths in cm
 red_green_width_cm = 11.0
 brown_width_cm = 120.0
 
 # Depths in cm
-red_green_depth_cm = 14.0  # Example depth for red and green blocks
+red_green_depth_cm2 = 14.0  # Example depth for red and green blocks
+red_green_depth_cm = 17.4
 brown_depth_cm = 100.0  # Example depth for brown block
 
 # HSV ranges for red, green, and brown colors
@@ -79,9 +81,9 @@ brown_lower_hsv = (10, 100, 20)
 brown_upper_hsv = (20, 255, 200)
 
 # Calculate calibration factors
-red_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, red_lower_hsv, red_upper_hsv, red_green_depth_cm)
-green_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, green_lower_hsv, green_upper_hsv, red_green_depth_cm)
-brown_calibration_factor = calculate_calibration_factor(image_path, brown_width_cm, brown_lower_hsv, brown_upper_hsv, brown_depth_cm)
+#red_calibration_factor = calculate_calibration_factor(image_path, image_path2, red_green_width_cm, red_lower_hsv, red_upper_hsv, red_green_depth_cm)
+green_calibration_factor = calculate_calibration_factor(image_path, image_path2, red_green_width_cm, green_lower_hsv, green_upper_hsv, red_green_depth_cm, red_green_depth_cm2)
+#brown_calibration_factor = calculate_calibration_factor(image_path, brown_width_cm, brown_lower_hsv, brown_upper_hsv, brown_depth_cm)
 
 # Display the results
 #print(f'Red Block Calibration Factor: {red_calibration_factor:.4f} cm/pixel')
