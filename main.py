@@ -1,5 +1,5 @@
 from camera.capture import capture_image
-from camera.capture import detect_color, define_blocks, merge_contours, 
+from camera.capture import detect_color, capture_image
 from camera.capture import image_width
 from mapping.map_builder import create_map
 from mapping.robots import Robot
