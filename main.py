@@ -20,10 +20,8 @@ ticks_per_revolution = 2000 # Change based on the encoder specs
 wheel_radius = 0.5 # Change based on the wheel radius
 
 # Defining Motors
-motor1 = Motor(1, 13, 14, 15, 16, pwm_pin, ticks_per_revolution)
-motor2 = Motor(2, 17, 18, 19, 20, pwm_pin, ticks_per_revolution)
-motor3 = Motor(3, 21, 22, 23, 24, pwm_pin, ticks_per_revolution)
-motor4 = Motor(4, 25, 26, 27, 28, pwm_pin, ticks_per_revolution)
+motor1 = Motor('a', 12, 6)
+motor2 = Motor('b', 13, 5)
 encoder_feedback = [(GPIO.LOW, 0),
                     (GPIO.LOW, 0),
                     (GPIO.LOW, 0),
