@@ -5,6 +5,7 @@ from mapping.map_builder import create_map
 from mapping.robots import Robot
 from path_planning.rtt_path import rtt_path_planning
 import numpy as np
+from calibrate import green_calibration_factor
 import RPi.GPIO as GPIO
 from motors.motors import Motor
 import math
@@ -12,7 +13,7 @@ import time
 import cv2
 
 fov = 100 # Edit based on the physical params
-calibration_factor = 12 # Edit based on the physical params
+calibration_factor = green_calibration_factor # Edit based on the physical params
 max_speed = 100 # Edit based on the physical params
 rover = Robot(500, 0, 5, 5, 0) # Edit based on the physical params
 pwm_pin = 12    # GPIO pin for PWM control
