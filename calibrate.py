@@ -33,7 +33,7 @@ def calculate_calibration_factor(image_path, image_path2, actual_width_cm, lower
     x, y, w, h = cv2.boundingRect(largest_contour)
     
     # Calculate calibration factor
-    calibration_factor = (w/ actual_width_cm) * depth_cm
+    calibration_factor = (w/ actual_width_cm) * depth_cm1
 
     image2 = cv2.imread(image_path2)
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
