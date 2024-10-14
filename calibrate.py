@@ -52,6 +52,8 @@ def calculate_calibration_factor(image_path1, image_path2, actual_width_cm, lowe
 # Example usage for Green block
 image_path1 = 'blocks_image.jpg'  # Replace with the path to your first image
 image_path2 = 'blocks_image2.jpg'  # Replace with the path to your second image
+image_path3 = 'blocks_image3.jpg'
+image_path4 = 'blocks_image4.jpg'
 
 # Actual width in cm
 green_width_cm = 11.0
@@ -59,6 +61,8 @@ green_width_cm = 11.0
 # Depths in cm
 depth_cm2 = 21.0  # Depth for the first image
 depth_cm1 = 15.0  # Depth for the second image
+depth_cm3 = 14.0
+depth_cm4 = 17.4
 
 # HSV range for green color
 green_lower_hsv = (40, 100, 100)
@@ -66,7 +70,7 @@ green_upper_hsv = (70, 255, 255)
 
 # Calculate calibration factor
 green_calibration_factor = calculate_calibration_factor(image_path1, image_path2, green_width_cm, green_lower_hsv, green_upper_hsv, depth_cm1, depth_cm2)
-
+green_calibration_factor2 = calculate_calibration_factor(image_path3, image_path4, green_width_cm, green_lower_hsv, green_upper_hsv,depth_cm3, depth_cm4)
 # Display the result
 if green_calibration_factor is not None:
     print(f'Green Block Calibration Factor: {green_calibration_factor:.4f} cm/pixel')
