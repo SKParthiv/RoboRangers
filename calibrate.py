@@ -33,7 +33,7 @@ def calculate_calibration_factor(image_path, actual_width_cm, lower_color, upper
     x, y, w, h = cv2.boundingRect(largest_contour)
     
     # Calculate calibration factor
-    calibration_factor = (actual_width_cm / w) * depth_cm
+    calibration_factor = (w/ actual_width_cm) * depth_cm
     return calibration_factor
 
 # Example usage for Red, Green, and Brown blocks
