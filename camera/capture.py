@@ -25,10 +25,10 @@ calibration_factor = 12.0  # Known object size in cm
 camera = Picamera2()
 camera_config = camera.create_preview_configuration(main={"size": (image_width, image_height)})
 camera.configure(camera_config)
-camera.start_preview(Preview.QTGL)
-camera.start()
 
 def capture_image():
+    camera.start_preview(Preview.QTGL)
+    camera.start()
     # Capture image in RGB format
     image = camera.capture_array()
     # Convert the captured image from RGB to BGR (OpenCV format)
