@@ -57,8 +57,8 @@ image_path2 = 'blocks_image2.jpg'  # Replace with the path to your second image
 green_width_cm = 11.0
 
 # Depths in cm
-depth_cm2 = 17.4  # Depth for the first image
-depth_cm1 = 14.0  # Depth for the second image
+depth_cm2 = 21.0  # Depth for the first image
+depth_cm1 = 15.0  # Depth for the second image
 
 # HSV range for green color
 green_lower_hsv = (40, 100, 100)
