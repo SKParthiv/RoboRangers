@@ -40,7 +40,7 @@ def calculate_calibration_factor(image_path, actual_width_cm, lower_color, upper
 image_path = 'blocks_image.jpg'  # Replace with the path to your image
 
 # Actual widths in cm
-red_green_width_cm = 11.0
+red_green_width_cm = 17.0
 brown_width_cm = 120.0
 
 # Depths in cm
