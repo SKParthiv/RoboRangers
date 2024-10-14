@@ -1,14 +1,15 @@
 import cv2
 import numpy as np
 
-def calculate_calibration_factor(image_path, actual_width_cm, lower_color, upper_color):
+def calculate_calibration_factor(image_path, actual_width_cm, lower_color, upper_color, depth_cm):
     """
-    Calculate the calibration factor based on the actual width in cm and pixel width.
+    Calculate the calibration factor based on the actual width in cm, pixel width, and depth.
     Args:
         image_path (str): Path to the image file.
         actual_width_cm (float): Known actual width of the object in cm.
         lower_color (tuple): Lower HSV color range for object detection.
         upper_color (tuple): Upper HSV color range for object detection.
+        depth_cm (float): Depth of the object in cm.
     Returns:
         float: Calibration factor in cm/pixel.
     """
@@ -32,15 +33,19 @@ def calculate_calibration_factor(image_path, actual_width_cm, lower_color, upper
     x, y, w, h = cv2.boundingRect(largest_contour)
     
     # Calculate calibration factor
-    calibration_factor = actual_width_cm / w
+    calibration_factor = (actual_width_cm / w) * depth_cm
     return calibration_factor
 
 # Example usage for Red, Green, and Brown blocks
 image_path = 'blocks_image.jpg'  # Replace with the path to your image
 
 # Actual widths in cm
-red_green_width_cm =11.0
+red_green_width_cm = 11.0
 brown_width_cm = 120.0
+
+# Depths in cm
+red_green_depth_cm = 50.0  # Example depth for red and green blocks
+brown_depth_cm = 100.0  # Example depth for brown block
 
 # HSV ranges for red, green, and brown colors
 red_lower_hsv = (0, 100, 100)
@@ -53,11 +58,11 @@ brown_lower_hsv = (10, 100, 20)
 brown_upper_hsv = (20, 255, 200)
 
 # Calculate calibration factors
-red_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, red_lower_hsv, red_upper_hsv)
-green_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, green_lower_hsv, green_upper_hsv)
-brown_calibration_factor = calculate_calibration_factor(image_path, brown_width_cm, brown_lower_hsv, brown_upper_hsv)
+red_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, red_lower_hsv, red_upper_hsv, red_green_depth_cm)
+green_calibration_factor = calculate_calibration_factor(image_path, red_green_width_cm, green_lower_hsv, green_upper_hsv, red_green_depth_cm)
+brown_calibration_factor = calculate_calibration_factor(image_path, brown_width_cm, brown_lower_hsv, brown_upper_hsv, brown_depth_cm)
 
 # Display the results
-print(f'Red Block Calibration Factor: {red_calibration_factor:.4f} cm/pixel')
+#print(f'Red Block Calibration Factor: {red_calibration_factor:.4f} cm/pixel')
 print(f'Green Block Calibration Factor: {green_calibration_factor:.4f} cm/pixel')
-print(f'Brown Block Calibration Factor: {brown_calibration_factor:.4f} cm/pixel')
+#print(f'Brown Block Calibration Factor: {brown_calibration_factor:.4f} cm/pixel')
