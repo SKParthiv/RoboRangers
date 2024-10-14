@@ -74,5 +74,6 @@ green_calibration_factor2 = calculate_calibration_factor(image_path3, image_path
 # Display the result
 if green_calibration_factor is not None:
     print(f'Green Block Calibration Factor: {green_calibration_factor:.4f} cm/pixel')
+    print(f'Green Block Calibration Factor: {green_calibration_factor2:.4f} cm/pixel')
 else:
     print('Calibration factor could not be calculated.')
