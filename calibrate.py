@@ -68,7 +68,7 @@ print(f'Green Block Calibration Factor: {green_calibration_factor:.4f} cm/pixel'
 #print(f'Brown Block Calibration Factor: {brown_calibration_factor:.4f} cm/pixel')
 
 # Example usage for Red, Green, and Brown blocks
-image_path = 'blocks_image.jpg'  # Replace with the path to your image
+image_path = 'blocks_image2.jpg'  # Replace with the path to your image
 
 # Actual widths in cm
 red_green_width_cm = 11.0
