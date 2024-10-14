@@ -42,17 +42,44 @@ class Motor:
 
 
 class DualMotorController:
-    def __init__(self, left_motor, right_motor):
+    def __init__(self, left_motor, right_motor, robot):
         self.left_motor = left_motor
         self.right_motor = right_motor
+        self.robot = robot
 
-    def move_left(self, speed, direction):
+    def turn(self, turn_angle):
+        """
+        Turn the robot by a specific angle.
+        
+        :param turn_angle: Angle to turn in degrees
+        """
+        # Calculate the distance each wheel needs to travel
+        wheel_base = self.robot.width  # Distance between the wheels
+        wheel_radius = 3.0  # Example wheel radius in cm, to be adjusted later
+
+        # Calculate the arc length for each wheel
+        arc_length = (turn_angle / 360.0) * (2 * np.pi * wheel_base / 2)
+
+        # Calculate the speed for each wheel
+        left_wheel_speed = arc_length / (2 * np.pi * wheel_radius) * 100
+        right_wheel_speed = -left_wheel_speed
+
+        # Move the motors
+        self.left_motor.move(abs(left_wheel_speed), 'forward' if left_wheel_speed > 0 else 'backward')
+        self.right_motor.move(abs(right_wheel_speed), 'forward' if right_wheel_speed > 0 else 'backward')
+
+    def move(self, speed, direction):
+        """
+        Move the robot in a specific direction.
+        
+        :param speed: Speed percentage (0-100)
+        :param direction: 'forward' or 'backward'
+        """
         self.left_motor.move(speed, direction)
-
-    def move_right(self, speed, direction):
         self.right_motor.move(speed, direction)
 
     def stop(self):
+        """Stop the robot."""
         self.left_motor.stop()
         self.right_motor.stop()
 
