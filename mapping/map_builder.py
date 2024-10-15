@@ -16,20 +16,6 @@ hospital_center_x = 0
 hospital_center_y = 0
 hospital_radius = 23.05
 
-class Block:
-    def __init__(self, x, y, width, height, color):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.color = color
-
-class Robot:
-    def __init__(self, x, y, radius, color):
-        self.x = x
-        self.y = y
-        self.radius = radius
-        self.color = color
 
 def create_map(blocks, robot):
     # Create the figure and axis

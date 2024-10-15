@@ -1,6 +1,5 @@
 from calculate import calculate_angles, control_gripper
 from recieve import send_angles
-import map_update
 
 
 # Coordinates of the block and platform

@@ -68,7 +68,7 @@ while True:
     rover.y = rover.y + robot_displacement * math.sin(turn_angle)
     
     # Update map
-    create_map()
+    create_map(blocks_green + blocks_red + blocks_brown, rover)
 
     # Plan the path using RTT algorithm
     start = (rover.x, rover.y)

@@ -1,13 +1,15 @@
-from picamera2 import Picamera2, Preview
+# from picamera2 import Picamera2, Preview
 import cv2
 import numpy as np
 import time
 from mapping.blocks import Block
+from calibrate import green_calibration_factor
 
 # Given values for angle calculations
 fov_degrees = 72.4  # FOV in degrees
 focal_length_mm = 3.29  # Focal length in mm
-image_width_pixels = 2592  # Image width in pixels
+image_width_pixels = 640  # Image width in pixels
+calibration_factor = green_calibration_factor  # Known object size in cm
 
 # Step 1: Convert FOV to radians
 fov_radians = np.radians(fov_degrees)
@@ -21,7 +23,6 @@ angle_per_pixel = fov_degrees / image_width_pixels  # degrees per pixel
 # Initialize PiCamera
 # image_width = 640  # in pixels
 # image_height = image_width * 3 // 4  # Maintain aspect ratio
-# calibration_factor = 12.0  # Known object size in cm
 # camera = Picamera2()
 # camera_config = camera.create_preview_configuration(main={"size": (image_width, image_height)})
 # camera.configure(camera_config)
@@ -58,7 +59,7 @@ def merge_contours(contours, merge_distance=20):
 
 def calculate_turn_angle(pixel_position):
     # Calculate the angle to turn based on the object's position in pixels
-    center_position = image_width / 2
+    center_position = image_width_pixels / 2
     offset = pixel_position - center_position
     turn_angle = offset * angle_per_pixel  # Use angle_per_pixel calculated earlier
     return turn_angle
@@ -73,7 +74,7 @@ def define_blocks(image, mask, color_name):
     for (x, y, w, h) in merged_boxes:
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         pixel_position = x + w / 2
-        depth = (calibration_factor * image_width) / w  # Depth in cm
+        depth = (green_calibration_factor * image_width_pixels) / w  # Depth in cm
         turn_angle = calculate_turn_angle(pixel_position)  # Turn angle in degrees
         blocks.append(Block(depth, turn_angle, color_name))
     
