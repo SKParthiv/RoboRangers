@@ -2,19 +2,19 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Circle
 
 # Arena dimensions
-arena_width = 1171
-arena_height = 1143
+arena_width = 117.1
+arena_height = 114.3
 
 # Refuge dimensions and coordinates
-refuge_x = 943  # 1143 - 200 (offset from right side)
+refuge_x = 94.3  # 1143 - 200 (offset from right side)
 refuge_y = 0
-refuge_width = 200
-refuge_length = 300
+refuge_width = 20.0
+refuge_length = 30.0
 
 # Hospital dimensions
 hospital_center_x = 0
 hospital_center_y = 0
-hospital_radius = 230.5
+hospital_radius = 23.05
 
 def create_map():
     # Create the figure and axis
