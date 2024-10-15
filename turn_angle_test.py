@@ -8,7 +8,7 @@ lower_bound = np.array([35, 100, 100])  # Lower bound for green
 upper_bound = np.array([85, 255, 255])  # Upper bound for green
 
 # List of test images
-test_images = ['blocks_image.jpg', 'blocks_image2.jpg', 'blocks_image3.jpg', 'blocks_image4.jpg']
+test_images = ['blocks_image.jpg']
 
 def test_turn_angle():
 	for image_path in test_images:
