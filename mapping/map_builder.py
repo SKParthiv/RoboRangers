@@ -16,7 +16,22 @@ hospital_center_x = 0
 hospital_center_y = 0
 hospital_radius = 23.05
 
-def create_map():
+class Block:
+    def __init__(self, x, y, width, height, color):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.color = color
+
+class Robot:
+    def __init__(self, x, y, radius, color):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+
+def create_map(blocks, robot):
     # Create the figure and axis
     fig, ax = plt.subplots()
     ax.set_xlim(0, arena_width)
@@ -37,13 +52,30 @@ def create_map():
     ax.add_patch(hospital_circle_till_doctor)
     ax.add_patch(hospital_roof)
 
+    # Draw blocks
+    for block in blocks:
+        block_rect = Rectangle((block.x, block.y), block.width, block.height, color=block.color, alpha=0.5)
+        ax.add_patch(block_rect)
+
+    # Draw robot
+    robot_circle = Circle((robot.x, robot.y), robot.radius, color=robot.color, alpha=0.5)
+    ax.add_patch(robot_circle)
+
     # Set titles and labels
-    ax.set_title("Arena Map with Hospital and Refuge")
+    ax.set_title("Arena Map with Hospital, Refuge, Blocks, and Robot")
     ax.set_xlabel("X-coordinate")
     ax.set_ylabel("Y-coordinate")
-    ax.legend(["Refuge", "Elevated Area", "Hospital", "Doctor Area", "Hospital Roof"])
+    ax.legend(["Refuge", "Elevated Area", "Hospital", "Doctor Area", "Hospital Roof", "Blocks", "Robot"])
 
     # Show the map
     plt.grid(True)
     plt.show()
-create_map()
+
+# Example usage
+# blocks = [
+#     Block(10, 10, 5, 5, "yellow"),
+#     Block(20, 20, 10, 10, "purple")
+# ]
+# robot = Robot(50, 50, 5, "black")
+
+# create_map(blocks, robot)

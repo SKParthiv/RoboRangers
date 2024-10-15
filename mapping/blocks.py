@@ -8,6 +8,8 @@ class Block:
 		self.in_place = in_place
 		self.x = 0
 		self.y = 0
+		self.width = 3
+		self.height = 5
 
 	def __repr__(self):
 		return f"Block(x={self.x}, y={self.y}, color='{self.color}', in_place={self.in_place})"
