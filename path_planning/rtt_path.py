@@ -2,14 +2,17 @@ import random
 import math
 from matplotlib.patches import Rectangle, Circle
 from mapping.map_builder import create_map
+from mapping.blocks import Block
+from motors.motors import Motor
 
 def rtt_path_planning():
     import matplotlib.pyplot as plt
 
     class Node:
-        def __init__(self, x, y):
+        def __init__(self, x, y, node_type='normal'):
             self.x = x
             self.y = y
+            self.node_type = node_type
             self.parent = None
 
     def distance(node1, node2):
@@ -54,10 +57,11 @@ def rtt_path_planning():
             node = node.parent
         return path[::-1]
 
-    def rtt_path_planning(start, goal, obstacles, arena_width, arena_height, max_iter=500):
+    def rtt_path_planning(start, goal, checkpoints, obstacles, arena_width, arena_height, max_iter=500):
         start_node = Node(start[0], start[1])
         goal_node = Node(goal[0], goal[1])
         node_list = [start_node]
+        checkpoint_nodes = [Node(cp.x, cp.y, 'checkpoint') for cp in checkpoints]
 
         for _ in range(max_iter):
             random_node = get_random_node(arena_width, arena_height)
@@ -87,6 +91,7 @@ def rtt_path_planning():
     # Example usage
     start = (10, 10)
     goal = (1000, 1000)
+    checkpoints = [Block(100, 0, 'checkpoint1'), Block(200, 0, 'checkpoint2')]
     obstacles = [
         Rectangle((943, 0), 200, 300, color="blue", alpha=0.5),
         Rectangle((943, 0), 100, 200, color="green", alpha=0.5),
@@ -94,5 +99,20 @@ def rtt_path_planning():
         Circle((0, 0), 200, color="green", alpha=0.5),
         Circle((0, 0), 150.5, color="red", alpha=0.5)
     ]
-    path = rtt_path_planning(start, goal, obstacles, arena_width, arena_height)
+    path = rtt_path_planning(start, goal, checkpoints, obstacles, arena_width, arena_height)
     plot_path(path, obstacles)
+
+    # Motor control logic
+    motor_left = Motor('left', 12, 6)
+    motor_right = Motor('right', 13, 5)
+
+    def move_robot(path):
+        for i in range(1, len(path)):
+            current_pos = path[i-1]
+            next_pos = path[i]
+            direction = "forward" if next_pos[1] > current_pos[1] else "backward"
+            speed = 50  # Example speed value
+            motor_left.move(speed, direction)
+            motor_right.move(speed, direction)
+
+    move_robot(path)
