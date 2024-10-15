@@ -1,9 +1,10 @@
 import serial
 import numpy as np
 from PIL import Image
+import time
 
 # Open the serial connection to Arduino
-ser = serial.Serial('/dev/ttyACM0', 115200)
+ser = serial.Serial('/dev/ttyUSB0', 115200)
 
 # Image parameters (adjust according to the resolution you're using)
 WIDTH = 640
@@ -38,7 +39,14 @@ def save_image(filename):
     img.save(filename)
 
 while True:
-    # Wait for a new frame from Arduino
+    # Signal the Arduino that we are ready to receive a new frame
+    ser.write(b'R')  # Send 'R' (ready to receive) to the Arduino
+    
+    # Wait for a brief moment to ensure synchronization
+    time.sleep(0.1)
+    
+    # Read the frame from Arduino
     read_frame()
+    
     # Save the frame as an image file
-    save_image('frame.jpg')
+    save_image('frame.png')
