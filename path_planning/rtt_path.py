@@ -99,6 +99,8 @@ def rtt_path_planning():
         Circle((0, 0), 200, color="green", alpha=0.5),
         Circle((0, 0), 150.5, color="red", alpha=0.5)
     ]
+    arena_width = 117.1
+    arena_height = 114.3
     path = rtt_path_planning(start, goal, checkpoints, obstacles, arena_width, arena_height)
     plot_path(path, obstacles)
 
