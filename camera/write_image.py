@@ -4,7 +4,7 @@ from PIL import Image
 import time
 
 # Open the serial connection to Arduino
-ser = serial.Serial('/dev/ttyUSB0', 115200)
+ser = serial.Serial('/dev/ttyACM0', 115200)
 
 # Image parameters (adjust according to the resolution you're using)
 WIDTH = 640
