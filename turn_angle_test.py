@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
-from capture import capture_image, detect_color
-from blocks import Block
+from camera.capture import capture_image, detect_color
+from mapping.blocks import Block
 
 # Define your color bounds for green
 lower_bound = np.array([35, 100, 100])  # Lower bound for green
