@@ -77,3 +77,4 @@ if green_calibration_factor is not None:
     print(f'Green Block Calibration Factor: {green_calibration_factor2:.4f} cm/pixel')
 else:
     print('Calibration factor could not be calculated.')
+
