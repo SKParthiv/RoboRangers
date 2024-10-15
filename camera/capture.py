@@ -19,18 +19,18 @@ physical_width = 2 * focal_length_mm * np.tan(fov_radians / 2)
 angle_per_pixel = fov_degrees / image_width_pixels  # degrees per pixel
 
 # Initialize PiCamera
-image_width = 640  # in pixels
-image_height = image_width * 3 // 4  # Maintain aspect ratio
-calibration_factor = 12.0  # Known object size in cm
-camera = Picamera2()
-camera_config = camera.create_preview_configuration(main={"size": (image_width, image_height)})
-camera.configure(camera_config)
+# image_width = 640  # in pixels
+# image_height = image_width * 3 // 4  # Maintain aspect ratio
+# calibration_factor = 12.0  # Known object size in cm
+# camera = Picamera2()
+# camera_config = camera.create_preview_configuration(main={"size": (image_width, image_height)})
+# camera.configure(camera_config)
 
 def capture_image():
-    camera.start_preview(Preview.QTGL)
-    camera.start()
-    # Capture image in RGB format
-    image = camera.capture_array()
+    # camera.start_preview(Preview.QTGL)
+    # camera.start()
+    # # Capture image in RGB format
+    image = cv2.imread('frame.jpg')
     # Convert the captured image from RGB to BGR (OpenCV format)
     return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
