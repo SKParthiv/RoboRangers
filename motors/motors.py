@@ -1,11 +1,14 @@
 import RPi.GPIO as GPIO
 
 class Motor:
-    def __init__(self, name, pwm_pin, motor_in1, motor_in2):
+    def __init__(self, name, pwm_pin, motor_in1, motor_in2, ppr, encoder_a, encoder_b):
         self.name = name
         self.pwm_pin = pwm_pin
         self.motor_in1 = motor_in1
         self.motor_in2 = motor_in2
+        self.ppr = ppr
+        self.encoder_a = encoder_a
+        self.encoder_b = encoder_b
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.motor_in1, GPIO.OUT)

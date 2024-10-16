@@ -9,8 +9,6 @@ class Robot:
 		self.width = width
 		self.length = length
 		self.angle = angle
-		self.encoder_a_pin = encoder_a_pin
-		self.encoder_b_pin = encoder_b_pin
 		self.motors = motors
 		self.turn_angle = turn_angle
 
@@ -18,19 +16,26 @@ class Robot:
 		GPIO.setup(self.encoder_a_pin, GPIO.IN)
 		GPIO.setup(self.encoder_b_pin, GPIO.IN)
 
+	def encoder_callback(self, channel):
+		# Update encoder counts based on the channel triggered
+		if channel == self.motors.left_motor.encoder_a:
+			self.motors.left_motor.encoder_count += 1
+		elif channel == self.motors.right_motor.encoder_b:
+			self.motors.right_motor.encoder_count += 1
+
 	def get_encoder_counts(self):
-		# Placeholder for actual encoder reading logic
-		encoder_a_count = GPIO.input(self.encoder_a_pin)
-		encoder_b_count = GPIO.input(self.encoder_b_pin)
+		# Return the current encoder counts
+		encoder_a_count = self.motors.left_motor.encoder_count
+		encoder_b_count = self.motors.right_motor.encoder_count
 		return encoder_a_count, encoder_b_count
 
 	def calculate_displacement_and_angle(self, encoder_a_count, encoder_b_count):
-		wheel_radius = self.motors.left_motor.wheel_radius  # Assuming both motors have the same wheel radius
+		wheel_radius = 3.0  # Example wheel radius in cm, to be adjusted later
 		wheel_base = self.width
 
 		# Calculate the distance each wheel has traveled
-		left_distance = 2 * np.pi * wheel_radius * (encoder_a_count / 360.0)
-		right_distance = 2 * np.pi * wheel_radius * (encoder_b_count / 360.0)
+		left_distance = 2 * np.pi * wheel_radius * (encoder_a_count / self.motors.left_motor.ppr)
+		right_distance = 2 * np.pi * wheel_radius * (encoder_b_count / self.motors.right_motor.ppr)
 
 		# Calculate the average displacement
 		displacement = (left_distance + right_distance) / 2.0
